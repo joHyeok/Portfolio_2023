@@ -1,5 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+/*이 코드는 컴파일 에러가 나는 동작하지 않은 코드입니다.
+오로지 포트폴리오용 코드로서 한 프로젝트의 일부 코드를 복사한 내용입니다.
+이 코드를 내려받아 사용시 발생하는 버그에 대해 책임지지 않습니다.
+OnConstruction에서 동작하게 하여 에디터 상에서 아트팀이 다룰수 있도록 함.
+캐릭터가 패스를 따라 움직일 때 충돌 오브젝트가 없어야하므로 캐릭터의 캡슐 콜리전의 크기만큼 박스트레이스를 사용함
+*/
 
 #include "SplineDirBase.h"
 
@@ -16,7 +21,7 @@ void ASplineDirBase::OnConstruction(const FTransform& Transform)
 	Super::OnConstruction(Transform);
 
 	EDrawDebugTrace::Type DrawVisibleType;
-	//�� ������ �Ⱥ�����
+	//선 보일지 안보일지
 	if (IsVisibleLine)
 	{
 		DrawVisibleType = EDrawDebugTrace::ForDuration;
@@ -34,7 +39,7 @@ void ASplineDirBase::OnConstruction(const FTransform& Transform)
 		SplinePointLocs.Add(Spline->GetLocationAtDistanceAlongSpline(i * 100.f, ESplineCoordinateSpace::World));
 	}
 
-	//�ʱ�ȭ
+	//초기화
 	PlayerLocSpline->ClearSplinePoints();
 
 	if (TempArrowArray.Num() != 0)
@@ -47,20 +52,20 @@ void ASplineDirBase::OnConstruction(const FTransform& Transform)
 	}
 
 
-	////�ڽ� Ʈ���̽�
+	////박스 트레이스
 	TArray<AActor*> IgnoreList;
 	FHitResult OutHitResult;
 	for (int j = 0; j < SplinePointLocs.Num(); ++j)
 	{
 		bool tempbool = false;
 
-		//�ݸ����� Default�϶��� �ε�ģ��, �������϶��� �Ⱥε�ģ��
+		//콜리전이 Default일때도 부딪친다, 오버랩일때는 안부딪친다
 		tempbool = UKismetSystemLibrary::BoxTraceSingle(
 			GetWorld(), SplinePointLocs[j], SplinePointLocs[j] + FVector(0.f, 0.f, -10000.f), FVector(34.f, 34.f, 0.f),
 			GetActorRotation(), UEngineTypes::ConvertToTraceType(ECC_WorldStatic), false, IgnoreList, DrawVisibleType,
 			OutHitResult, true, FLinearColor::Red, FLinearColor::Green, 7.f);
 
-		//Ʈ���̽� ������ ���� �� ����
+		//트레이스 정보가 존재 할 때만
 		if (tempbool)
 		{
 			if (OutHitResult.GetActor()->ActorHasTag(TEXT("Land")))
