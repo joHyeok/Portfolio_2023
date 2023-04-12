@@ -1,4 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+/*이 코드는 컴파일 에러가 나는 동작하지 않은 코드입니다.
+오로지 포트폴리오용 코드로서 한 프로젝트의 일부 코드를 복사한 내용입니다.
+이 코드를 내려받아 사용시 발생하는 버그에 대해 책임지지 않습니다.
+
+InitPatch 함수는 매니페스트를 업데이트합니다.
+PatchGame함수는 실제 pak을 다운로드하고 마운트합니다.
+*/
 
 
 #include "DownloadPakBase.h"
@@ -32,7 +39,7 @@ void ADownloadPakBase::OnDownloadComplete(bool bSuccess)
 	{
 		UE_LOG(LogTemp, Display, TEXT("ButterLandLog : Download complete So Mount"));
 
-		//ûũ �ٿ�δ�
+		//청크 다운로더
 		TSharedRef<FChunkDownloader> Downloader = FChunkDownloader::GetChecked();
 
 		FJsonSerializableArrayInt DownloadedChunks;
@@ -49,11 +56,11 @@ void ADownloadPakBase::OnDownloadComplete(bool bSuccess)
 		{
 			UE_LOG(LogClass, Warning, TEXT("ButterLandLog : OnMountPak is Bound"));
 
-			//����Ʈ
+			//마운트
 			TFunction<void(bool bSuccess)> MountCompleteCallback = [&](bool bSuccess) { OnMountComplete(bSuccess); };
 			Downloader->MountChunks(DownloadedChunks, MountCompleteCallback);
 
-			//�Ϸ�Ǹ�
+			//완료되면
 			OnPatchComplete.Broadcast(true);
 		}
 		else
@@ -72,7 +79,7 @@ void ADownloadPakBase::OnDownloadComplete(bool bSuccess)
 
 void ADownloadPakBase::InitPatch()
 {
-	//1�� ���� ���� �������� ���� �߰��ٿ�ε� ƨ�� ���� �ذ��� ���� �ڵ� 220422
+	//1차 개발 버그 수정으로 인한 추가다운로드 튕김 현상 해결을 위한 코드 220422
 	IFileManager& TempFileManager = IFileManager::Get();
 
 	FString DeleteCachedManifestDir = FPaths::ProjectPersistentDownloadDir() / TEXT("PakCache/CachedBuildManifest.txt");
@@ -85,7 +92,7 @@ void ADownloadPakBase::InitPatch()
 	TSharedRef<FChunkDownloader> Downloader = FChunkDownloader::GetOrCreate();
 	Downloader->Initialize("Windows", 8);
 
-	//config���� url ��������
+	//config에서 url 가져오기
 	FString CdnBaseUrls;
 	FString ConfigSectionName = FString::Printf(TEXT("/Script/Plugins.ChunkDownloader %s"), *DeploymentName);
 	GConfig->GetString(*ConfigSectionName, TEXT("CdnBaseUrls"), CdnBaseUrls, GGameIni);
@@ -104,7 +111,7 @@ void ADownloadPakBase::InitPatch()
 		//GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, TEXT("LoadCacheBuild False!?!?"));
 	}
 
-	//�Ŵ��佺Ʈ ������Ʈ
+	//매니페스트 업데이트
 	TFunction<void(bool bSuccess)> UpdateCompleteCallback = [&](bool bSuccess)
 	{
 		bIsDownloadManifestUpToData = bSuccess;
@@ -119,7 +126,7 @@ void ADownloadPakBase::InitPatch()
 		{
 			UE_LOG(LogClass, Warning, TEXT("UdpateCompleteFalse!?!?"));
 		}
-		//�Ϸ�
+		//완료
 		OnPatchReady.Broadcast(bSuccess);
 	};
 	Downloader->UpdateBuild(DeploymentName, ContentBuildId, UpdateCompleteCallback);
@@ -137,7 +144,7 @@ bool ADownloadPakBase::PatchGame()
 			UE_LOG(LogTemp, Display, TEXT("Chunk %i status: %i"), ChunkID, ChunkStatus);
 		}
 
-		//�Ϸ�Ǹ�
+		//완료되면
 		TFunction<void(bool)> MountCompleteCallback = [this](bool bSuccess)
 		{
 			if (bSuccess)
@@ -151,7 +158,7 @@ bool ADownloadPakBase::PatchGame()
 				OnPatchComplete.Broadcast(false);
 			}
 		};
-		//����Ʈ�ϱ�
+		//마운트하기
 		Downloader->MountChunks(ChunkDownloadList, MountCompleteCallback);
 		return true;
 
