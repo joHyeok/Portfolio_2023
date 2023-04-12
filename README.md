@@ -18,3 +18,10 @@ TableChairClass는 각각 프로필, 카드, 코인 액터를 가지고 있습�
 * 앱 실행 이후 추가 다운로드 기능 구현을 위해 언리얼에서 데이터 에셋을 사용한 pak 파일 생성   
 * aws S3에 pak파일을 업로드, 앱에서 다운로드 기능 구현   
 [Source/Portfolio_2023/Main/DownloadPakBase.cpp에서 확인해 볼 수 있습니다.](Source/Portfolio_2023/Main/DownloadPakBase.cpp)   
+   
+## 이멀전
+![image](https://user-images.githubusercontent.com/69950874/231372924-a274e6af-cff2-4302-9ea4-cb7793a57731.png)   
+   
+* 두개의 스플라인 컴포넌트   
+* 러프하게 스플라인을 잡으면 박스 트레이스를 사용해 랜드스케이프의 굴곡에 맞춰서 100cm 간격의 촘촘한 스플라인 생성   
+* 스플라인 패스상에 충돌 가능한 액터가 있다면 빨간선으로 
