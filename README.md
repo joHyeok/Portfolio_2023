@@ -20,8 +20,9 @@ TableChairClass는 각각 프로필, 카드, 코인 액터를 가지고 있습�
 [Source/Portfolio_2023/Main/DownloadPakBase.cpp에서 확인해 볼 수 있습니다.](Source/Portfolio_2023/Main/DownloadPakBase.cpp)   
    
 ## 이멀전
-![image](https://user-images.githubusercontent.com/69950874/231372924-a274e6af-cff2-4302-9ea4-cb7793a57731.png)   
+![image](https://user-images.githubusercontent.com/69950874/231374279-ae2a8b22-daaf-45bd-90c4-94ec535b90be.png)   
    
 * 두개의 스플라인 컴포넌트   
 * 러프하게 스플라인을 잡으면 박스 트레이스를 사용해 랜드스케이프의 굴곡에 맞춰서 100cm 간격의 촘촘한 스플라인 생성   
-* 스플라인 패스상에 충돌 가능한 액터가 있다면 빨간선으로 
+* 스플라인 패스상에 충돌 가능한 액터가 있다면 빨간선으로 표시   
+[Source/Portfolio_2023/Main/SplineDirBase.cpp에서 확인해 볼 수 있습니다.](Source/Portfolio_2023/Main/SplineDirBase.cpp)
