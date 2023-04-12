@@ -2,6 +2,7 @@
 포트폴리오 기술용입니다.   
 여러 프로젝트의 일부 코드를 옮겨온 코드입니다.   
 그렇기에 내려 받아 컴파일 시 에러가 나는 제대로 동작하지 않은 코드들이고 오로지 포트폴리오용으로 쓰입니다.   
+이 프로젝트의 코드를 복사하여 사용시 발생하는 버그에 대해 책임지지 않습니다.   
    
 사용한 블루프린트들은 여기서 볼 수 있습니다. [Show Blueprint](https://blueprintue.com/profile/mandu/)   
 ## 바나랜드
@@ -13,5 +14,6 @@
 [Source/Portfolio_2023/Main/SocketManagerBase.cpp에서 확인해 볼 수 있습니다.](Source/Portfolio_2023/Main/SocketManagerBase.cpp)   
    
 ## 버터랜드
-*앱 실행 이후 추가 다운로드 기능 구현을 위해 언리얼에서 데이터 에셋을 사용한 pak 파일 생성   
-*aws S3에 pak파일을 업로드, 앱에서 다운로드 기능 구현   
+* 앱 실행 이후 추가 다운로드 기능 구현을 위해 언리얼에서 데이터 에셋을 사용한 pak 파일 생성   
+* aws S3에 pak파일을 업로드, 앱에서 다운로드 기능 구현   
+[Source/Portfolio_2023/Main/DownloadPakBase.cpp에서 확인해 볼 수 있습니다.](Source/Portfolio_2023/Main/DownloadPakBase.cpp)   
